@@ -1,0 +1,11 @@
+<manifest>
+
+  <remote name="aohp"
+          fetch="git@github.com:aohp-os/" />
+
+  <project name="build_make"
+           path="build/make"
+           remote="aohp"
+           revision="main" />
+
+</manifest>
