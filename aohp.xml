@@ -4,7 +4,16 @@
   <remote name="aohp"
           fetch="git@github.com:aohp-os/" />
 
-  <!-- ========== build/make ========== -->
+
+  <!-- ========== device/google/cuttlefish ========== -->
+  <remove-project name="device/google/cuttlefish" />
+
+  <project name="device_google_cuttlefish"
+           path="device/google/cuttlefish"
+           remote="aohp"
+           revision="main" />
+
+  <!-- ========== platform/build → build/make ========== -->
   <remove-project name="platform/build" />
   <!-- 与 default.xml 中 platform/build 一致：在源码根创建 build/* 符号链接 -->
   <project name="build_make"
@@ -19,7 +28,7 @@
     <linkfile src="tools" dest="build/tools" />
   </project>
 
-  <!-- ========== frameworks/base ========== -->
+  <!-- ========== platform/frameworks/base ========== -->
   <remove-project name="platform/frameworks/base" />
 
   <project name="platform_frameworks_base"
@@ -27,15 +36,23 @@
            remote="aohp"
            revision="main" />
 
-  <!-- ========== device/google/cuttlefish ========== -->
-  <remove-project name="device/google/cuttlefish" />
+  <!-- ========== platform/system/core ========== -->
+  <remove-project name="platform/system/core" />
 
-  <project name="device_google_cuttlefish"
-           path="device/google/cuttlefish"
+  <project name="platform_system_core"
+           path="system/core"
            remote="aohp"
            revision="main" />
 
-  <!-- ========== AOHP Agent Driver application（ contains Android.bp, privapp-permissions-aohp.xml and pre-built APK）========== -->
+  <!-- ========== platform/system/sepolicy ========== -->
+  <remove-project name="platform/system/sepolicy" />
+
+  <project name="platform_system_sepolicy"
+           path="system/sepolicy"
+           remote="aohp"
+           revision="main" />
+
+  <!-- ========== AOHP Agent Driver application ========== -->
   <project name="AOHPAgentDriver"
            path="packages/apps/AOHPAgentDriver"
            remote="aohp"
