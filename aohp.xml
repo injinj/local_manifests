@@ -58,4 +58,10 @@
            remote="aohp"
            revision="main" />
 
+  <!-- ========== MobileClaw (prebuilt APK, optional /system app) ========== -->
+  <project name="MobileClawApp"
+           path="packages/apps/MobileClawApp"
+           remote="aohp"
+           revision="main" />
+
 </manifest>
