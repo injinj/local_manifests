@@ -52,15 +52,21 @@
            remote="aohp"
            revision="main" />
 
-  <!-- ========== AOHP Agent Driver application ========== -->
+  <!-- ========== AOHP Agent Driver ========== -->
   <project name="AOHPAgentDriver"
            path="packages/apps/AOHPAgentDriver"
            remote="aohp"
            revision="main" />
 
-  <!-- ========== MobileClaw (prebuilt APK, optional /system app) ========== -->
+  <!-- ========== MobileClaw ========== -->
   <project name="MobileClawApp"
            path="packages/apps/MobileClawApp"
+           remote="aohp"
+           revision="main" />
+
+  <!-- ========== AOHP Task Driver ========== -->
+  <project name="AOHPTaskDriver"
+           path="packages/apps/AOHPTaskDriver"
            remote="aohp"
            revision="main" />
 
