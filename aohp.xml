@@ -58,12 +58,6 @@
            remote="aohp"
            revision="main" />
 
-  <!-- ========== MobileClaw ========== -->
-  <project name="MobileClawApp"
-           path="packages/apps/MobileClawApp"
-           remote="aohp"
-           revision="main" />
-
   <!-- ========== AOHP Task Driver ========== -->
   <project name="AOHPTaskDriver"
            path="packages/apps/AOHPTaskDriver"
