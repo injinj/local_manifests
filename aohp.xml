@@ -52,6 +52,14 @@
            remote="aohp"
            revision="main" />
 
+  <!-- ========== platform/packages/apps/Launcher3 ========== -->
+  <remove-project name="platform/packages/apps/Launcher3" />
+
+  <project name="packages_apps_launcher3"
+           path="packages/apps/Launcher3"
+           remote="aohp"
+           revision="main" />
+
   <!-- ========== AOHP Agent Driver ========== -->
   <project name="AOHPAgentDriver"
            path="packages/apps/AOHPAgentDriver"
