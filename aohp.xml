@@ -66,16 +66,5 @@
            remote="aohp"
            revision="main" />
 
-  <!-- ========== AOHP Task Driver ========== -->
-  <project name="AOHPTaskDriver"
-           path="packages/apps/AOHPTaskDriver"
-           remote="aohp"
-           revision="main" />
-
-  <!-- ========== AOHP Security Consent ========== -->
-  <project name="AohpSecurityConsent"
-           path="packages/apps/AohpSecurityConsent"
-           remote="aohp"
-           revision="main" />
 
 </manifest>
