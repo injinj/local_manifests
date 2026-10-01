@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest>
 
+  <remote name="injinj"
+          fetch="git@github.com:injinj/" />
   <remote name="aohp"
           fetch="git@github.com:aohp-os/" />
 
@@ -18,8 +20,8 @@
   <!-- 与 default.xml 中 platform/build 一致：在源码根创建 build/* 符号链接 -->
   <project name="build_make"
            path="build/make"
-           remote="aohp"
-           revision="main">
+           remote="injinj"
+           revision="injinj-main">
     <linkfile src="CleanSpec.mk" dest="build/CleanSpec.mk" />
     <linkfile src="buildspec.mk.default" dest="build/buildspec.mk.default" />
     <linkfile src="core" dest="build/core" />
@@ -41,16 +43,16 @@
 
   <project name="platform_system_core"
            path="system/core"
-           remote="aohp"
-           revision="main" />
+           remote="injinj"
+           revision="injinj-main" />
 
   <!-- ========== platform/system/sepolicy ========== -->
   <remove-project name="platform/system/sepolicy" />
 
   <project name="platform_system_sepolicy"
            path="system/sepolicy"
-           remote="aohp"
-           revision="main" />
+           remote="injinj"
+           revision="injinj-main" />
 
   <!-- ========== platform/packages/apps/Launcher3 ========== -->
   <remove-project name="platform/packages/apps/Launcher3" />
@@ -63,8 +65,8 @@
   <!-- ========== AOHP Agent Driver ========== -->
   <project name="AOHPAgentDriver"
            path="packages/apps/AOHPAgentDriver"
-           remote="aohp"
-           revision="main" />
+           remote="injinj"
+           revision="injinj-main" />
 
 
 </manifest>
