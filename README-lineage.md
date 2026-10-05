@@ -1,5 +1,8 @@
 # LineageOS 23.2 + AOHP (Pixel 6 "oriole", OnePlus 13 "dodge")
 
+> **Full documentation (build, install from the ROM releases, provisioning, known issues) lives in
+> https://github.com/injinj/aohp-lineage** — this file only covers the manifest.
+
 Branch `lineage-23.2-aohp` of this repo holds the local manifest that reproduces the tree built on chex
 (`/home/chris/lineage/android`, 2026-10-03/04; reports in `/home/chris/lineage/logs/REPORT-*.md`).
 The seven AOHP-patched projects are the `lineage-23.2-aohp` branches of the injinj forks:
@@ -22,17 +25,17 @@ repo sync -c -j8 --no-tags --no-clone-bundle --optimized-fetch --prune --retry-f
 `vendor/aohp` is a private repo: `repo sync` needs a GitHub credential with access to injinj
 (e.g. `gh auth login` + `gh auth setup-git`, or a `~/.git-credentials` entry).
 
-### AOHP binaries that are not in any repo project
+### AOHP binaries that are not in any repo project — `vendor/aohp/fetch-prebuilts.sh`
 
-`packages/apps/AOHPAgentDriver` is synced from `injinj/AOHPAgentDriver` (`injinj-main`), but its gitignored
-binaries must be put in place by hand (build/make's `generic/Android.bp` and the `aohp-rootfs-*` modules reference them):
-`rootfs/debian.tar.gz` (617670439 B, sha256 f81067ab…590; built by `prepare_rootfs.sh` from the aohp-os tree,
-chex copy `/aosp/templates/debian-arm64.tar.gz`), `rootfs/alpine.tar.gz`, `AOHPAgentDriver.apk`.
-Also copy `packages/apps/AOHPDriver/` (`Android.bp`, `AOHPDriver.apk` 45361061 B sha256 c4e16ce6…,
-`initial-package-stopped-states-aohp.xml`) and `packages/apps/OpenClawAndroid/` (`Android.bp`, `OpenClawAndroid.apk`)
-from the chex tree (or rebuild them from github.com/injinj/aohp-driver and the OpenClaw Android app; OpenClawAndroid
-is `preprocessed: true`, presigned with `/aosp/keys/aohp-apps.jks`). Lineage's default dev platform key is
-byte-identical to the AOHP tree's, so AOHPDriver keeps its platform signature without any key override.
+After `repo sync` run `vendor/aohp/fetch-prebuilts.sh` (no arguments). It downloads, sha256-verifies and places every
+file the build needs that is not in git: `packages/apps/AOHPAgentDriver/rootfs/debian.tar.gz` (newest
+`templates-*` release of injinj/aohp-agents), `packages/apps/AOHPDriver/{Android.bp,AOHPDriver.apk,initial-package-stopped-states-aohp.xml}`
+(injinj/aohp-driver release, unsigned — Soong platform-signs it), `packages/apps/OpenClawAndroid/{Android.bp,OpenClawAndroid.apk}`
+(injinj/openclaw release `android-aohp-*`, presigned with the injinj `aohp-apps` key, `preprocessed: true`) and the
+stock `AOHPAgentDriver.apk` + `rootfs/alpine.tar.gz` (injinj/AOHPAgentDriver `prebuilts-*` release; not installed on
+the phones but required by Soong analysis). Lineage's default dev platform key is byte-identical to the AOHP tree's, so
+AOHPDriver keeps its platform signature without any key override. Details: `vendor/aohp/README.md` and
+https://github.com/injinj/aohp-lineage/blob/main/docs/build.md.
 
 ## Build (exact commands from logs/build-3.sh and logs/build-dodge-1.sh)
 
@@ -48,5 +51,6 @@ m -j10 bacon                       # -> out/target/product/dodge/lineage-23.2-*-
 ```
 
 `brunch oriole` / `brunch dodge` is the one-step equivalent of breakfast + `m bacon`. Flashing: fastboot the
-boot images, Lineage recovery → Factory reset → Apply update from ADB → `adb sideload <zip>` (REPORT-flash-2.md,
-REPORT-dodge-build.md §6). Build time on chex (32 threads, -j10, CPUQuota 1000 %): oriole ~2.5 h cold, dodge 1 h 53 min.
+boot images, Lineage recovery → Factory reset → Apply update from ADB → `adb sideload <zip>` — step by step in
+https://github.com/injinj/aohp-lineage/blob/main/docs/install-oriole.md and `docs/install-dodge.md`; the built ROMs are
+published as releases there. Build time on chex (32 threads, -j10, CPUQuota 1000 %): oriole ~2.5 h cold, dodge 1 h 53 min.
