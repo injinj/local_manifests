@@ -3,7 +3,7 @@
 Branch `lineage-23.2-aohp` of this repo holds the local manifest that reproduces the tree built on chex
 (`/home/chris/lineage/android`, 2026-10-03/04; reports in `/home/chris/lineage/logs/REPORT-*.md`).
 The seven AOHP-patched projects are the `lineage-23.2-aohp` branches of the injinj forks:
-`android_build`, `android_system_core` (standalone copy, see comment in aohp.xml), `android_system_sepolicy`,
+`android_build`, `platform_system_core` (branch on the existing aohp-os fork, see comment in aohp.xml), `android_system_sepolicy`,
 `android_frameworks_base`, `android_device_google_raviole`, `android_device_oneplus_dodge` and
 `android_vendor_aohp` (private). Each is LineageOS `lineage-23.2` + the aohp-os upstream squash + the injinj
 commits (sepolicy: `aohp_container_socket` moved to private policy for `sepolicy_freeze_test`; patch 0003

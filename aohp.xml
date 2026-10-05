@@ -21,10 +21,11 @@
     <linkfile src="tools" dest="build/tools" />
   </project>
 
-  <!-- android_system_core is a standalone copy, not a GitHub fork: GitHub allows one fork per network per
-       account and injinj/platform_system_core already holds the aohp-os fork of the same network. -->
+  <!-- system/core lives as branch lineage-23.2-aohp on injinj/platform_system_core (the aohp-os fork): GitHub allows
+       one fork per network per account, LineageOS/android_system_core is in the same aosp-mirror network, and a
+       standalone copy is rejected (219 MB libunwindstack test blob in Lineage history > 100 MB limit). -->
   <remove-project name="LineageOS/android_system_core" />
-  <project path="system/core" name="android_system_core" remote="injinj" revision="lineage-23.2-aohp" groups="pdk" />
+  <project path="system/core" name="platform_system_core" remote="injinj" revision="lineage-23.2-aohp" groups="pdk" />
 
   <remove-project name="LineageOS/android_system_sepolicy" />
   <project path="system/sepolicy" name="android_system_sepolicy" remote="injinj" revision="lineage-23.2-aohp" groups="pdk" />
