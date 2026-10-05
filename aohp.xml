@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  LineageOS 23.2 + AOHP local manifest (branch lineage-23.2-aohp of github.com/injinj/local_manifests).
+  Use with:  repo init -u https://github.com/LineageOS/android.git -b lineage-23.2
+  Copy this file to .repo/local_manifests/aohp.xml, then repo sync.
+  The seven AOHP-patched projects come from the injinj GitHub forks on branch lineage-23.2-aohp
+  (LineageOS lineage-23.2 + aohp-os upstream squash + injinj commits, see README-lineage.md).
+-->
+<manifest>
+  <remote name="injinj" fetch="https://github.com/injinj/" />
+  <remote name="themuppets" fetch="https://github.com/TheMuppets/" />
+
+  <!-- ========== AOHP-patched platform projects (injinj forks of the LineageOS repos) ========== -->
+  <remove-project name="LineageOS/android_build" />
+  <project path="build/make" name="android_build" remote="injinj" revision="lineage-23.2-aohp" groups="pdk,sysui-studio" >
+    <linkfile src="CleanSpec.mk" dest="build/CleanSpec.mk" />
+    <linkfile src="buildspec.mk.default" dest="build/buildspec.mk.default" />
+    <linkfile src="core" dest="build/core" />
+    <linkfile src="envsetup.sh" dest="build/envsetup.sh" />
+    <linkfile src="target" dest="build/target" />
+    <linkfile src="tools" dest="build/tools" />
+  </project>
+
+  <!-- android_system_core is a standalone copy, not a GitHub fork: GitHub allows one fork per network per
+       account and injinj/platform_system_core already holds the aohp-os fork of the same network. -->
+  <remove-project name="LineageOS/android_system_core" />
+  <project path="system/core" name="android_system_core" remote="injinj" revision="lineage-23.2-aohp" groups="pdk" />
+
+  <remove-project name="LineageOS/android_system_sepolicy" />
+  <project path="system/sepolicy" name="android_system_sepolicy" remote="injinj" revision="lineage-23.2-aohp" groups="pdk" />
+
+  <remove-project name="LineageOS/android_frameworks_base" />
+  <project path="frameworks/base" name="android_frameworks_base" remote="injinj" revision="lineage-23.2-aohp" groups="pdk-cw-fs,pdk-fs,sysui-studio" />
+
+  <!-- ========== AOHP product fragment (private repo: needs GitHub auth with access to injinj) ========== -->
+  <project path="vendor/aohp" name="android_vendor_aohp" remote="injinj" revision="lineage-23.2-aohp" />
+
+  <!-- ========== AOHP payload sources (AOHPAgentDriver: Android.bp for aohp-rootfs-debian/alpine, privapp perms).
+       The gitignored binaries (rootfs/debian.tar.gz, rootfs/alpine.tar.gz, AOHPAgentDriver.apk) and the
+       packages/apps/AOHPDriver + packages/apps/OpenClawAndroid directories (Android.bp + APK) are NOT in any
+       repo project - see README-lineage.md. ========== -->
+  <project path="packages/apps/AOHPAgentDriver" name="AOHPAgentDriver" remote="injinj" revision="injinj-main" />
+
+  <!-- ========== Pixel 6 (oriole) device trees, resolved from lineage.dependencies (oriole -> raviole -> gs101, raviole-kernels -> gs-common) ========== -->
+  <project path="device/google/oriole" name="LineageOS/android_device_google_oriole" remote="github" revision="lineage-23.2" />
+  <!-- raviole carries the +3-line lineage_oriole.mk inherit of vendor/aohp/aohp.mk -->
+  <project path="device/google/raviole" name="android_device_google_raviole" remote="injinj" revision="lineage-23.2-aohp" />
+  <project path="device/google/gs101" name="LineageOS/android_device_google_gs101" remote="github" revision="lineage-23.2" />
+  <project path="device/google/gs-common" name="LineageOS/android_device_google_gs-common" remote="github" revision="lineage-23.2" />
+  <!-- prebuilt kernel 6.1 (TARGET_KERNEL_DIR := device/google/raviole-kernels/6.1); populated by 'breakfast oriole' (build_kernel) -->
+  <project path="device/google/raviole-kernels" name="LineageOS/android_device_google_raviole-kernels" remote="github" revision="lineage-23.2" clone-depth="1" />
+
+  <!-- Vendor blobs (lineage_oriole.mk: VENDOR_PATH := vendor/google/oriole; TheMuppets has no gs101/raviole repo) -->
+  <project path="vendor/google/oriole" name="proprietary_vendor_google_oriole" remote="themuppets" revision="lineage-23.2" clone-depth="1" />
+
+  <!-- ========== OnePlus 13 (dodge, CPH2655) device trees, resolved from lineage.dependencies (dodge -> sm8750-common -> hardware/oplus + 3 kernel repos).
+       Already in Lineage's default manifest, not added: hardware/qcom-caf/common, hardware/qcom-caf/sm8750/*, device/qcom/sepolicy_vndr/sm8750, vendor/qcom/opensource/{power,usb,vibrator}. ========== -->
+  <!-- dodge carries the +3-line lineage_dodge.mk inherit of vendor/aohp/aohp.mk -->
+  <project path="device/oneplus/dodge" name="android_device_oneplus_dodge" remote="injinj" revision="lineage-23.2-aohp" />
+  <project path="device/oneplus/sm8750-common" name="LineageOS/android_device_oneplus_sm8750-common" remote="github" revision="lineage-23.2" />
+  <project path="hardware/oplus" name="LineageOS/android_hardware_oplus" remote="github" revision="lineage-23.2" />
+  <!-- kernel built from source in-tree (TARGET_KERNEL_SOURCE := kernel/oneplus/sm8750, INLINE_KERNEL_BUILDING via vendor/lineage/build/tasks/kernel.mk) -->
+  <project path="kernel/oneplus/sm8750" name="LineageOS/android_kernel_oneplus_sm8750" remote="github" revision="lineage-23.2" clone-depth="1" />
+  <project path="kernel/oneplus/sm8750-devicetrees" name="LineageOS/android_kernel_oneplus_sm8750-devicetrees" remote="github" revision="lineage-23.2" clone-depth="1" />
+  <project path="kernel/oneplus/sm8750-modules" name="LineageOS/android_kernel_oneplus_sm8750-modules" remote="github" revision="lineage-23.2" clone-depth="1" />
+
+  <!-- Vendor blobs (device.mk: vendor/oneplus/dodge/dodge-vendor.mk; common.mk: vendor/oneplus/sm8750-common/sm8750-common-vendor.mk) -->
+  <project path="vendor/oneplus/dodge" name="proprietary_vendor_oneplus_dodge" remote="themuppets" revision="lineage-23.2" clone-depth="1" />
+  <project path="vendor/oneplus/sm8750-common" name="proprietary_vendor_oneplus_sm8750-common" remote="themuppets" revision="lineage-23.2" clone-depth="1" />
+</manifest>
