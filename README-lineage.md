@@ -28,8 +28,9 @@ repo sync -c -j8 --no-tags --no-clone-bundle --optimized-fetch --prune --retry-f
 ### AOHP binaries that are not in any repo project — `vendor/aohp/fetch-prebuilts.sh`
 
 After `repo sync` run `vendor/aohp/fetch-prebuilts.sh` (no arguments). It downloads, sha256-verifies and places every
-file the build needs that is not in git: `packages/apps/AOHPAgentDriver/rootfs/debian.tar.gz` (newest
-`templates-*` release of injinj/aohp-agents), `packages/apps/AOHPDriver/{Android.bp,AOHPDriver.apk,initial-package-stopped-states-aohp.xml}`
+file the build needs that is not in git: `packages/apps/AOHPAgentDriver/rootfs/debian.tar.gz` (the `templates-*`
+release of injinj/aohp-agents pinned as `TEMPLATES_TAG` in the script — `templates-20261005b` since 2026-10-05; `--release <tag>`
+or `TEMPLATES_TAG=` for the newest), `packages/apps/AOHPDriver/{Android.bp,AOHPDriver.apk,initial-package-stopped-states-aohp.xml}`
 (injinj/aohp-driver release, unsigned — Soong platform-signs it), `packages/apps/OpenClawAndroid/{Android.bp,OpenClawAndroid.apk}`
 (injinj/openclaw release `android-aohp-*`, presigned with the injinj `aohp-apps` key, `preprocessed: true`) and the
 stock `AOHPAgentDriver.apk` + `rootfs/alpine.tar.gz` (injinj/AOHPAgentDriver `prebuilts-*` release; not installed on
@@ -54,3 +55,9 @@ m -j10 bacon                       # -> out/target/product/dodge/lineage-23.2-*-
 boot images, Lineage recovery → Factory reset → Apply update from ADB → `adb sideload <zip>` — step by step in
 https://github.com/injinj/aohp-lineage/blob/main/docs/install-oriole.md and `docs/install-dodge.md`; the built ROMs are
 published as releases there. Build time on chex (32 threads, -j10, CPUQuota 1000 %): oriole ~2.5 h cold, dodge 1 h 53 min.
+
+Updating an already-flashed phone to a newer build: no fastboot step is needed when the boot images did not change —
+reboot to recovery, *Apply update → Apply from ADB*, `adb sideload <new zip>`, reboot; /data (envs, Driver settings,
+Keystore secrets) is kept. The 2026-10-05 builds (oriole build-4, dodge build-2) were produced exactly this way as
+incremental `m -j10 bacon` runs after changing system/sepolicy, the Driver APK and the Debian template
+(logs/build-4.sh, logs/build-dodge-2.sh).
