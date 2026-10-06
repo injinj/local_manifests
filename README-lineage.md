@@ -5,9 +5,10 @@
 
 Branch `lineage-23.2-aohp` of this repo holds the local manifest that reproduces the tree built on chex
 (`/home/chris/lineage/android`, 2026-10-03/04; reports in `/home/chris/lineage/logs/REPORT-*.md`).
-The seven AOHP-patched projects are the `lineage-23.2-aohp` branches of the injinj forks:
+The eight AOHP-patched projects are the `lineage-23.2-aohp` branches of the injinj forks:
 `android_build`, `platform_system_core` (branch on the existing aohp-os fork, see comment in aohp.xml), `android_system_sepolicy`,
-`android_frameworks_base`, `android_device_google_raviole`, `android_device_oneplus_dodge` and
+`android_frameworks_base`, `android_packages_apps_Launcher3` (since 2026-10-06: one null-check commit on top of lineage-23.2),
+`android_device_google_raviole`, `android_device_oneplus_dodge` and
 `android_vendor_aohp` (private). Each is LineageOS `lineage-23.2` + the aohp-os upstream squash + the injinj
 commits (sepolicy: `aohp_container_socket` moved to private policy for `sepolicy_freeze_test`; patch 0003
 "drop policycap functionfs_seclabel" intentionally NOT applied - Lineage/Pixel keep the policycap).
@@ -42,7 +43,10 @@ https://github.com/injinj/aohp-lineage/blob/main/docs/build.md.
 
 ```bash
 cd ~/lineage/android
-export WITH_ADB_INSECURE=true      # ro.adb.secure=0, ro.debuggable=1 (dev phone: adb without RSA prompt, also in recovery)
+# builds <= oriole build-5 / dodge build-3 used 'export WITH_ADB_INSECURE=true' (ro.adb.secure=0, ro.debuggable=1).
+# Since build-6 / dodge-4 the build is a plain userdebug (ro.adb.secure=1) and the build host's adb public key is
+# baked in via PRODUCT_ADB_KEYS := vendor/aohp/adb_keys (system + recovery ramdisk): put YOUR ~/.android/adbkey.pub
+# in that file (one key per line) before building, or you get the RSA dialog / no adb in recovery.
 source build/envsetup.sh
 breakfast oriole                   # Pixel 6: = lunch lineage_oriole-bp4a-userdebug + build_kernel (repo-inits/syncs android_kernel_google_gs-6.1_manifest into out-kernel/, Kleaf build, ~10 min)
 m -j10 bacon                       # -> out/target/product/oriole/lineage-23.2-*-UNOFFICIAL-oriole.zip, boot.img, dtbo.img, vendor_boot.img

@@ -3,7 +3,7 @@
   LineageOS 23.2 + AOHP local manifest (branch lineage-23.2-aohp of github.com/injinj/local_manifests).
   Use with:  repo init -u https://github.com/LineageOS/android.git -b lineage-23.2
   Copy this file to .repo/local_manifests/aohp.xml, then repo sync.
-  The seven AOHP-patched projects come from the injinj GitHub forks on branch lineage-23.2-aohp
+  The eight AOHP-patched projects come from the injinj GitHub forks on branch lineage-23.2-aohp
   (LineageOS lineage-23.2 + aohp-os upstream squash + injinj commits, see README-lineage.md).
 -->
 <manifest>
@@ -32,6 +32,11 @@
 
   <remove-project name="LineageOS/android_frameworks_base" />
   <project path="frameworks/base" name="android_frameworks_base" remote="injinj" revision="lineage-23.2-aohp" groups="pdk-cw-fs,pdk-fs,sysui-studio" />
+
+  <!-- Launcher3 (Trebuchet): one fix, OverviewComponentObserver null-check so the per-display taskbar in desktop mode
+       (external display) does not crash-loop the launcher (added for oriole build-6 / dodge build-4, 2026-10-06). -->
+  <remove-project name="LineageOS/android_packages_apps_Launcher3" />
+  <project path="packages/apps/Launcher3" name="android_packages_apps_Launcher3" remote="injinj" revision="lineage-23.2-aohp" groups="pdk-fs,sysui-studio,pdk-cw-tvc" />
 
   <!-- ========== AOHP product fragment (private repo: needs GitHub auth with access to injinj) ========== -->
   <project path="vendor/aohp" name="android_vendor_aohp" remote="injinj" revision="lineage-23.2-aohp" />
