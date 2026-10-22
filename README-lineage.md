@@ -5,10 +5,12 @@
 
 Branch `lineage-23.2-aohp` of this repo holds the local manifest that reproduces the tree built on chex
 (`/home/chris/lineage/android`, 2026-10-03/04; reports in `/home/chris/lineage/logs/REPORT-*.md`).
-The eight AOHP-patched projects are the `lineage-23.2-aohp` branches of the injinj forks:
+The AOHP-patched projects are the `lineage-23.2-aohp` branches of the injinj forks:
 `android_build`, `platform_system_core` (branch on the existing aohp-os fork, see comment in aohp.xml), `android_system_sepolicy`,
 `android_frameworks_base`, `android_packages_apps_Launcher3` (since 2026-10-06: one null-check commit on top of lineage-23.2),
-`android_device_google_raviole`, `android_device_oneplus_dodge` and
+`android_device_google_raviole`, `android_device_oneplus_dodge`, `android_device_osom_ingot`,
+`android_device_oneplus_sm8750-common` + `android_kernel_oneplus_sm8750` (since 2026-10-22: the `vendor/oplus/aohp.config`
+kernel fragment enabling SysV IPC and POSIX mqueue for the AOHP env, in use since dodge build-21 on 2026-10-09) and
 `android_vendor_aohp` (private). Each is LineageOS `lineage-23.2` + the aohp-os upstream squash + the injinj
 commits (sepolicy: `aohp_container_socket` moved to private policy for `sepolicy_freeze_test`; patch 0003
 "drop policycap functionfs_seclabel" intentionally NOT applied - Lineage/Pixel keep the policycap).
